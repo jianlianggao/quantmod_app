@@ -9,12 +9,17 @@ ui <- fluidPage(
       actionButton("fetch", "Fetch Data")
     ),
     mainPanel(
-      tableOutput("stock_data")
+      textOutput("message")
+      #tableOutput("stock_data")
     )
   )
 )
 
 server <- function(input, output, session) {
+  output$message <- renderText(
+    paste("This is test of display", input$ticker)
+  )
+  
   stock_data <- eventReactive(input$fetch, {
     library(quantmod)
     req(input$ticker)
