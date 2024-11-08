@@ -1,19 +1,16 @@
-name: Fetch Stock Data
+name: Fetch Data
 
 on:
-  workflow_dispatch:
-    inputs:
-      ticker:
-        description: 'Stock ticker symbol'
-        required: true
-        default: 'AAPL'
+  push:
+    paths:
+      - '/tofetch.txt'
 
 jobs:
   fetch_data:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set up R
@@ -21,18 +18,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        Rscript -e 'install.packages(c("quantmod"))'
+        Rscript -e 'install.packages("quantmod")'
 
-    - name: Fetch stock data
+    - name: Fetch data
       run: |
-        Rscript -e "library(quantmod); getSymbols('${{ github.event.inputs.ticker }}', src = 'yahoo'); write.csv(get(${github.event.inputs.ticker}), '${{ github.event.inputs.ticker }}.csv')"
-
-    - name: Commit and push data
-      env:
-        GITHUB_TOKEN: ${{ secrets.quantmod_app }}
-      run: |
-        git config --global jianlianggao 'github-actions'
-        git config --global j.gao@imperial.ac.uk 'github-actions@github.com'
-        git add ${{ github.event.inputs.ticker }}.csv
-        git commit -m 'Add stock data for ${{ github.event.inputs.ticker }}'
-        git push
+        ticker <- readLines("/tofetch.txt")
+        library(quantmod)
+        getSymbols(ticker, src = "yahoo", auto.assign = TRUE)
+        write.csv(get(ticker), paste0(ticker, ".csv"))
+        system("git add .")
+        system("git commit -m 'Add stock data'")
+        system("git push")
