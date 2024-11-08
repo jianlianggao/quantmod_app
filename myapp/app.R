@@ -28,7 +28,13 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+           #plotOutput("distPlot")
+          fluidRow(
+            column(6, plotOutput("distPlot"))
+          ),
+          fluidRow(
+            column(12, textOutput("message"))
+          )
         )
     )
 )
@@ -36,14 +42,22 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   library(quantmod)
+  library(knitr)
+  output$message <- renderText({
+    data <- getSymbols(input$ticker, src = "yahoo",
+                       from = input$dateRange[1], to = input$dateRange[2],
+                       auto.assign = FALSE)
+    kable(head(data), caption = paste(input$ticker, "preview"))
+  })
   stockData <- eventReactive(input$goButton, {
-    
+    print("get data....")
     getSymbols(input$ticker, src = "yahoo",
                 from = input$dateRange[1], to = input$dateRange[2],
                 auto.assign = FALSE)
    })
 
      output$distPlot <- renderPlot({
+       print("Action done")
         data <- stockData()
         req(data)
         chartSeries(data, name = paste(input$ticker, "Price") )
