@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(httr)
 
 ui <- fluidPage(
   titlePanel("Stock Data Fetcher"),
@@ -20,7 +21,7 @@ server <- function(input, output, session) {
     req(input$ticker)
     token <- Sys.getenv("GITHUB_TOKEN")
     POST(
-      url = "https://api.github.com/repos/yourusername/yourrepo/actions/workflows/deploy.yml/dispatches",
+      url = "https://api.github.com/repos/yourusername/yourrepo/actions/workflows/deploy.yml/workflow_dispatch",
       add_headers(Authorization = paste("token", token)),
       body = list(ref = "main", inputs = list(ticker = input$ticker)),
       encode = "json"
