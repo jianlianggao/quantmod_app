@@ -35,9 +35,9 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  
+  library(quantmod)
   stockData <- eventReactive(input$goButton, {
-    library(quantmod)
+    
     getSymbols(input$ticker, src = "yahoo",
                 from = input$dateRange[1], to = input$dateRange[2],
                 auto.assign = FALSE)
