@@ -22,7 +22,7 @@ ui <- fluidPage(
           textInput("ticker", "Enter Stock Ticker Symbol:", value = "AAPL"),
           # dateRangeInput("dateRange", "Select Date Range:",
           #                start = Sys.Date() - 30, end = Sys.Date()),
-          actionButton("goButton", "Go")
+          #actionButton("goButton", "Go")
         ),
 
         # Show a plot of the generated distribution
