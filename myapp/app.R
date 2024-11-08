@@ -27,7 +27,7 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+           #plotOutput("distPlot")
         )
     )
 )
@@ -41,11 +41,11 @@ server <- function(input, output) {
                auto.assign = FALSE)
   })
 
-    output$distPlot <- renderPlot({
-       data <- stockData()
-       chartSeries(data, name = paste(input$ticker, "Price") )
-       addBBands()
-    })
+    # output$distPlot <- renderPlot({
+    #    data <- stockData()
+    #    chartSeries(data, name = paste(input$ticker, "Price") )
+    #    addBBands()
+    # })
 }
 
 # Run the application 
