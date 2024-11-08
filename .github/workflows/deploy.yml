@@ -28,6 +28,8 @@ jobs:
         Rscript -e "library(quantmod); getSymbols('${{ github.event.inputs.ticker }}', src = 'yahoo'); write.csv(get(${github.event.inputs.ticker}), '${{ github.event.inputs.ticker }}.csv')"
 
     - name: Commit and push data
+      env:
+        GITHUB_TOKEN: ${{ secrets.quantmod_app }}
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
