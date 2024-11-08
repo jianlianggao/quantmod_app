@@ -1,5 +1,5 @@
 library(shiny)
-library(quantmod)
+
 
 ui <- fluidPage(
   titlePanel("Stock Data Fetcher"),
@@ -16,6 +16,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   stock_data <- eventReactive(input$fetch, {
+    library(quantmod)
     req(input$ticker)
     tryCatch({
       getSymbols(input$ticker, src = "yahoo", auto.assign = FALSE)
