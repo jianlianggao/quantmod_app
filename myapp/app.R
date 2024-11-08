@@ -21,7 +21,7 @@ server <- function(input, output, session) {
     req(input$ticker)
     token <- Sys.getenv("GITHUB_TOKEN")
     POST(
-      url = "https://api.github.com/repos/yourusername/yourrepo/actions/workflows/deploy.yml/workflow_dispatch",
+      url = "https://api.github.com/repos/yourusername/yourrepo/actions/workflows/deploy.yml/dispatches",
       add_headers(Authorization = paste("token", token)),
       body = list(ref = "main", inputs = list(ticker = input$ticker)),
       encode = "json"
