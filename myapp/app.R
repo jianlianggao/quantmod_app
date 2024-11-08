@@ -14,7 +14,7 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   stock_data <- eventReactive(input$fetch, {
     library(quantmod)
     req(input$ticker)
@@ -31,6 +31,11 @@ server <- function(input, output) {
       return(data.frame(Message = "Invalid ticker symbol or data not available."))
     }
     head(data)
+  })
+  # Trigger initial rendering
+  observe({
+    updateTextInput(session, "ticker", value = "AAPL")
+    
   })
 }
 
