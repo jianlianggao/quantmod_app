@@ -1,47 +1,25 @@
 library(shiny)
-library(ggplot2)
-library(httr)
+
 
 ui <- fluidPage(
-  titlePanel("Stock Data Fetcher"),
-  sidebarLayout(
-    sidebarPanel(
-      textInput("ticker", "Enter Ticker Symbol:", value = "AAPL"),
-      actionButton("trigger", "Fetch Data")
-    ),
-    mainPanel(
-      plotOutput("stock_plot"),
-      textOutput("status")
-    )
-  )
+  textInput("ticker", "Enter Ticker Symbol:", value = "AAPL"),
+  actionButton("submit", "Submit"),
+  plotOutput("stockPlot")
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$trigger, {
-    req(input$ticker)
-    token <- Sys.getenv("GITHUB_TOKEN")
-    POST(
-      url = "https://api.github.com/repos/yourusername/yourrepo/actions/workflows/deploy.yml/dispatches",
-      add_headers(Authorization = paste("token", token)),
-      body = list(ref = "main", inputs = list(ticker = input$ticker)),
-      encode = "json"
-    )
-    output$status <- renderText("Fetching data...")
+  observeEvent(input$submit, {
+    ticker <- input$ticker
+    writeLines(ticker, "/tofetch.txt")
   })
   
-  observe({
-    invalidateLater(10000, session)  # Check every 10 seconds
+  output$stockPlot <- renderPlot({
+    library(quantmod)
+    invalidateLater(60000, session)  # Refresh every minute
     ticker <- input$ticker
-    if (file.exists(paste0(ticker, ".csv"))) {
-      data <- read.csv(paste0(ticker, ".csv"))
-      output$stock_plot <- renderPlot({
-        ggplot(data, aes(x = index(data), y = data[, 4])) +  # Adjust column index as needed
-          geom_line() +
-          labs(title = paste("Stock Price for", ticker), x = "Date", y = "Price")
-      })
-      output$status <- renderText("Data loaded successfully!")
-    }
+    data <- read.csv(paste0("/", ticker, ".csv"))
+    chartSeries(as.xts(data[, -1], order.by = as.Date(data[, 1])), name = ticker)
   })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
