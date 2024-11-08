@@ -45,6 +45,7 @@ server <- function(input, output, session) {
 
      output$distPlot <- renderPlot({
         data <- stockData()
+        req(data)
         chartSeries(data, name = paste(input$ticker, "Price") )
         addBBands()
      })
