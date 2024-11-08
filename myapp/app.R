@@ -9,8 +9,8 @@ ui <- fluidPage(
       actionButton("fetch", "Fetch Data")
     ),
     mainPanel(
-      textOutput("message")
-      #tableOutput("stock_data")
+      textOutput("message"),
+      tableOutput("stock_data")
     )
   )
 )
@@ -21,7 +21,10 @@ server <- function(input, output, session) {
   )
   
   stock_data <- eventReactive(input$fetch, {
-    library(quantmod)
+    if (!require(quantmod)) {
+      install.packages("quantmod", repos="http://cran.r-project.org")
+      library(quantmod)
+    }
     req(input$ticker)
     tryCatch({
       getSymbols(input$ticker, src = "yahoo", auto.assign = FALSE)
