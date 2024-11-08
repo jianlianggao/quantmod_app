@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-library(quantmod)
+#library(quantmod)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -36,11 +36,11 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   
-  stockData <- eventReactive(input$goButton, {
-    getSymbols(input$ticker, src = "yahoo", 
-               # from = input$dateRange[1], to = input$dateRange[2], 
-               auto.assign = FALSE)
-  })
+  # stockData <- eventReactive(input$goButton, {
+  #   getSymbols(input$ticker, src = "yahoo", 
+  #              # from = input$dateRange[1], to = input$dateRange[2], 
+  #              auto.assign = FALSE)
+  # })
 
     # output$distPlot <- renderPlot({
     #    data <- stockData()
