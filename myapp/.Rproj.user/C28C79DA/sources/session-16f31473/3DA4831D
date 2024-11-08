@@ -3,7 +3,7 @@
     "path": "/files/myapp/app.R",
     "project_path": "app.R",
     "type": "r_source",
-    "hash": "176470394",
+    "hash": "2439645067",
     "contents": "",
     "dirty": false,
     "created": 1731080031606.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "10,1",
-        "scrollLine": "0"
+        "cursorPosition": "23,10",
+        "scrollLine": "12"
     },
     "folds": "",
-    "lastKnownWriteTime": 1731087998,
+    "lastKnownWriteTime": 1731088672,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1731087998139,
+    "last_content_update": 1731088672873,
     "read_only": false,
     "read_only_alternatives": []
 }
