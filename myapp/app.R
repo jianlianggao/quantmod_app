@@ -33,7 +33,7 @@ ui <- fluidPage(
             column(6, plotOutput("distPlot"))
           ),
           fluidRow(
-            column(12, textOutput("message"))
+            column(12, tableOutput("stock_data"))
           )
         )
     )
@@ -50,16 +50,28 @@ server <- function(input, output, session) {
     kable(head(data), caption = paste(input$ticker, "preview"))
   })
   stockData <- eventReactive(input$goButton, {
-    print("get data....")
+    
     getSymbols(input$ticker, src = "yahoo",
                 from = input$dateRange[1], to = input$dateRange[2],
                 auto.assign = FALSE)
    })
+  
+  output$stock_data <- renderTable({
+    data <- stockData()
+    if (is.null(data)) {
+      return(data.frame(Message = "Invalid ticker symbol or data not available."))
+    }
+    head(data)
+  })
 
      output$distPlot <- renderPlot({
-       print("Action done")
+       
         data <- stockData()
-        req(data)
+        # Pre-fetch data and save as CSV
+      
+        write.csv(data, "data.csv")
+        
+        #req(data)
         chartSeries(data, name = paste(input$ticker, "Price") )
         addBBands()
      })
