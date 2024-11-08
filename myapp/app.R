@@ -23,6 +23,7 @@ ui <- fluidPage(
           # dateRangeInput("dateRange", "Select Date Range:",
           #                start = Sys.Date() - 30, end = Sys.Date()),
           #actionButton("goButton", "Go")
+          #verbatimTextOutput("result")
         ),
 
         # Show a plot of the generated distribution
@@ -33,7 +34,7 @@ ui <- fluidPage(
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   stockData <- eventReactive(input$goButton, {
     getSymbols(input$ticker, src = "yahoo", 
@@ -46,6 +47,12 @@ server <- function(input, output) {
     #    chartSeries(data, name = paste(input$ticker, "Price") )
     #    addBBands()
     # })
+  
+  # Trigger initial rendering
+  observe({
+    updateTextInput(session, "ticker", value = "AAPL")
+    
+  })
 }
 
 # Run the application 
