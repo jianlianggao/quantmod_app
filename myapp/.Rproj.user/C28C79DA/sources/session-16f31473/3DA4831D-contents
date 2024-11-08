@@ -20,8 +20,8 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
           textInput("ticker", "Enter Stock Ticker Symbol:", value = "AAPL"),
-          dateRangeInput("dateRange", "Select Date Range:",
-                         start = Sys.Date() - 30, end = Sys.Date()),
+          # dateRangeInput("dateRange", "Select Date Range:",
+          #                start = Sys.Date() - 30, end = Sys.Date()),
           actionButton("goButton", "Go")
         ),
 
@@ -37,7 +37,7 @@ server <- function(input, output) {
   
   stockData <- eventReactive(input$goButton, {
     getSymbols(input$ticker, src = "yahoo", 
-               from = input$dateRange[1], to = input$dateRange[2], 
+               # from = input$dateRange[1], to = input$dateRange[2], 
                auto.assign = FALSE)
   })
 
