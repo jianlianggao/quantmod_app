@@ -31,8 +31,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.quantmod_app }}
       run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
+        git config --global jianlianggao 'github-actions'
+        git config --global j.gao@imperial.ac.uk 'github-actions@github.com'
         git add ${{ github.event.inputs.ticker }}.csv
         git commit -m 'Add stock data for ${{ github.event.inputs.ticker }}'
         git push
