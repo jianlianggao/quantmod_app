@@ -1,5 +1,6 @@
 library(shiny)
 library(xts)
+library(quantmod)
 
 ui <- fluidPage(
   textInput("ticker", "Enter Ticker Symbol:", value = "AAPL"),
