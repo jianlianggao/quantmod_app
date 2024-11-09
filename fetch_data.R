@@ -1,4 +1,4 @@
-tickers <- read.csv("myapp/tofetch.txt")
+tickers <- read.csv("tofetch.txt")
 
 if (!require(quantmod)) {
   install.packages("quantmod", repos="http://cran.r-project.org", dependencies = TRUE)
