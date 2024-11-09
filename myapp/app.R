@@ -11,6 +11,9 @@ server <- function(input, output, session) {
   observeEvent(input$submit, {
     ticker <- input$ticker
     writeLines(ticker, "tofetch.txt")
+    system("git add myapp/tofetch.txt")
+    system("git commit -m 'Update tofetch.txt'")
+    system("git push -f")  
   })
   
   output$stockPlot <- renderPlot({
