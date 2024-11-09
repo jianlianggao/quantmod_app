@@ -1,7 +1,7 @@
 ticker <- readLines("myapp/tofetch.txt")
 
 if (!require(quantmod)) {
-  install.packages("quantmod", repos="http://cran.r-project.org")
+  install.packages("quantmod", repos="http://cran.r-project.org", dependencies = TRUE)
   library(quantmod)
 }
 getSymbols(ticker, src = "yahoo", auto.assign = TRUE)
