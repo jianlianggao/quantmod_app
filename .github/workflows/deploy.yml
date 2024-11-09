@@ -30,6 +30,8 @@ jobs:
 
 
       - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.quantmod_app }}
         run: |
           git config --local user.name jianlianggao
           git config --local user.email "j.gao@imperial.ac.uk"
