@@ -2,6 +2,10 @@ library(shiny)
 library(plotly)
 library(dplyr)
 
+# initial data for plotly
+data=read.csv("../data/AAPL.csv", stringsAsFactors = F)
+
+
 # Define UI
 ui <- fluidPage(
   titlePanel("Stock Price"),
@@ -33,6 +37,7 @@ server <- function(input, output, session) {
   
   output$combinedPlot <- renderPlotly({
     data <- as.data.frame(stockData())
+    req(data)
     data$Date <- as.Date(data$Date)
     ticker <- input$ticker
     #data <- data %>% data.frame()
