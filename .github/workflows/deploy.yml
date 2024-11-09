@@ -3,7 +3,7 @@ name: Fetch Data
 on:
   push:
     paths:
-      - 'myapp/tofetch.txt'
+      - 'tofetch.txt'
 
 jobs:
   build:
