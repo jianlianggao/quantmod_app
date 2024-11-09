@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install cURL Headers
         run: sudo apt-get update && sudo apt-get install libcurl4-openssl-dev
@@ -23,12 +23,12 @@ jobs:
       
 
       - name: Install dependencies
-        run: |
-          Rscript -e 'install.packages(c("remotes", "quantmod", "TTR", "ggplot2"),dependencies=TRUE )'
-  
-  
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::quantmod
+          needs: check  
         
-      - name: plot data
+      - name: fetch data
         run: Rscript -e 'source("fetch_data.R")'
 
 
