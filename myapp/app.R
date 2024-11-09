@@ -8,17 +8,17 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$submit, {
+  # Use eventReactive to trigger data loading when the submit button is clicked
+  stockData <- eventReactive(input$submit, {
     ticker <- input$ticker
-    data <- read.csv(paste0("../data/",ticker,".csv"))
+    data <- read.csv(paste0("../data/", ticker, ".csv"))
     data$Date <- as.Date(data$Date)
-    data <- xts(data[, -1], order.by = data$Date)
+    xts(data[, -1], order.by = data$Date)
   })
   
   output$stockPlot <- renderPlot({
-    library(quantmod)
-    
-    chartSeries(data, name = ticker)
+    data <- stockData()
+    chartSeries(data, name = input$ticker)
   })
 }
 
