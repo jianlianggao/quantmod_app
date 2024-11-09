@@ -28,7 +28,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   stockData <- eventReactive(input$submit, {
     ticker <- input$ticker
-    data <- read.csv(paste0("../data/", ticker, ".csv"))
+    read.csv(paste0("../data/", ticker, ".csv"))
     #data <- data %>% data.frame()
     #print(head(data))
     #data$Date <- as.Date(data$Date)
