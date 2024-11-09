@@ -3,7 +3,7 @@ library(plotly)
 library(dplyr)
 
 # initial data for plotly
-data=read.csv("../data/AAPL.csv", stringsAsFactors = F)
+#data=read.csv("../data/AAPL.csv", stringsAsFactors = F)
 
 
 # Define UI
@@ -62,7 +62,7 @@ server <- function(input, output, session) {
    })   
     # Trigger initial rendering
     observe({
-      updateTextInput(session, "ticker", value = "")
+      updateTextInput(session, "ticker", value = "AAPL")
     })
 
 }
