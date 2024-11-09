@@ -1,30 +1,42 @@
 library(shiny)
 library(plotly)
+library(dplyr)
 
+# Define UI
 ui <- fluidPage(
-  tags$head(
-    tags$style(HTML("
-      .plotly {
-        width: 100% !important;
-      }
-    "))
-  ),
-  textInput("ticker", "Enter Ticker Symbol:", value = "AAPL"),
-  actionButton("submit", "Submit"),
-  plotlyOutput("combinedPlot", width = "100%")
+  titlePanel("Stock Price"),
+  sidebarLayout(
+    sidebarPanel(
+      textInput("ticker", "Enter Ticker Symbol:", value = "AAPL"),
+      actionButton("submit", "Submit")
+      #textInput("research", "Your research:"),
+      #actionButton("calculate", "Calculate Similarity"),
+      #verbatimTextOutput("result")
+    ),
+    mainPanel(
+      plotlyOutput("combinedPlot")
+      
+    )
+  )
 )
+
 
 server <- function(input, output, session) {
   stockData <- eventReactive(input$submit, {
     ticker <- input$ticker
     data <- read.csv(paste0("../data/", ticker, ".csv"))
-    data$Date <- as.Date(data$Date)
-    data
+    #data <- data %>% data.frame()
+    #print(head(data))
+    #data$Date <- as.Date(data$Date)
+    #print(head(data))
   })
   
   output$combinedPlot <- renderPlotly({
-    data <- stockData()
+    data <- as.data.frame(stockData())
+    data$Date <- as.Date(data$Date)
     ticker <- input$ticker
+    #data <- data %>% data.frame()
+    #print(head(data))
     
     # Create the candlestick plot
     candlestick <- plot_ly(data, x = ~Date, type = "candlestick",
@@ -42,7 +54,12 @@ server <- function(input, output, session) {
       layout(title = paste("Candlestick and Volume Chart for", ticker),
              yaxis = list(title = "Price"),
              yaxis2 = list(title = "Volume", overlaying = "y", side = "right"))
-  })
+   })   
+    # Trigger initial rendering
+    observe({
+      updateTextInput(session, "ticker", value = "")
+    })
+
 }
 
 shinyApp(ui, server)
