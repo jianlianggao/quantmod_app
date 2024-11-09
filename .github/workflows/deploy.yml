@@ -3,7 +3,7 @@ name: Fetch Data
 on:
   push:
     paths:
-      - 'tofetch.txt'
+      - 'myapp/tofetch.txt'
 
 jobs:
   fetch_data:
@@ -22,7 +22,4 @@ jobs:
 
     - name: Fetch data
       run: |
-        ticker <- readLines("tofetch.txt")
-        library(quantmod)
-        getSymbols(ticker, src = "yahoo", auto.assign = TRUE)
-        write.csv(get(ticker), paste0(ticker, ".csv"))
+        Rscript fetch_data.R
