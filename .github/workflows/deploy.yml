@@ -3,7 +3,7 @@ name: Fetch Data
 on:
   push:
     paths:
-      - '/tofetch.txt'
+      - 'myapp/tofetch.txt'
 
 jobs:
   fetch_data:
@@ -22,10 +22,10 @@ jobs:
 
     - name: Fetch data
       run: |
-        ticker <- readLines("/tofetch.txt")
+        ticker <- readLines("myapp/tofetch.txt")
         library(quantmod)
         getSymbols(ticker, src = "yahoo", auto.assign = TRUE)
-        write.csv(get(ticker), paste0(ticker, ".csv"))
+        write.csv(get(ticker), paste0("myapp/",ticker, ".csv"))
         system("git add .")
         system("git commit -m 'Add stock data'")
         system("git push")
