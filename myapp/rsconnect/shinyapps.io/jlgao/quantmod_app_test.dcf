@@ -1,0 +1,13 @@
+name: quantmod_app_test
+title: quantmod_app_test
+username: jlgao
+account: jlgao
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13287970
+bundleId: 9340176
+url: https://jlgao.shinyapps.io/quantmod_app_test/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: data/AAPL.csv|data/AMZN.csv|data/GOOG.csv|data/README.md|tofetch.txt
